@@ -1,0 +1,49 @@
+services:
+
+  code-server:
+
+    image: lscr.io/linuxserver/code-server:latest
+    container_name: code-server
+    restart: unless-stopped
+    hostname: code-server
+
+    ports:
+      - "8080:8443"
+
+    env_file:
+      - .env
+
+    environment:
+      - PASSWORD=${PASSWORD}
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - DEFAULT_WORKSPACE=/workspace
+
+    volumes:
+      - ./data/config:/config
+      - ./data/workspace:/workspace
+      - ./data/ssh:/home/abc/.ssh
+      - ./data/git:/home/abc/.git
+      - ./scripts:/scripts
+      - /var/run/docker.sock:/var/run/docker.sock
+
+    cap_add:
+      - SYS_PTRACE
+
+    security_opt:
+      - seccomp:unconfined
+
+    shm_size: 2gb
+
+    command: >
+      bash -c "
+      /scripts/init.sh &&
+      /init
+      "
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8443"]
+      interval: 30s
+      timeout: 10s
+      retries: 3

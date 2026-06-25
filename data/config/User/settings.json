@@ -1,0 +1,17 @@
+{
+    "editor.fontSize": 14,
+    "editor.tabSize": 4,
+    "editor.formatOnSave": true,
+
+    "files.autoSave": "afterDelay",
+
+    "python.defaultInterpreterPath": "/usr/bin/python3",
+
+    "terminal.integrated.defaultProfile.linux": "bash",
+
+    "clangd.path": "/usr/bin/clangd",
+
+    "cmake.configureOnOpen": true,
+
+    "git.autofetch": true
+}
